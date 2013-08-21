@@ -9,10 +9,10 @@ app = Flask(__name__)
 
 # app / database config
 app.config.from_object(__name__)
-app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'dwdfall2013'}
+app.config['MONGODB_SETTINGS'] = {'DB': 'dwdfall2013'} #'HOST':os.environ.get('MONGOLAB_URI'),
 app.config['TESTING'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.debug = True
+app.debug = os.environ.get('DEBUG')
 
 db = MongoEngine(app) # connect MongoEngine with Flask App
 app.session_interface = MongoEngineSessionInterface(db) # sessions w/ mongoengine
@@ -25,9 +25,9 @@ class Todo(db.Document):
 
 @app.route('/')
 def hello_world():
-	# return "ok"
+	return "ok"
 	# Todo(title='abasbababacabac').save()
-	return render_template('index.html')
+	# return render_template('index.html')
 
 
 if __name__ == '__main__':
