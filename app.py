@@ -25,9 +25,9 @@ class Todo(db.Document):
 
 @app.route('/')
 def hello_world():
-	return "ok"
+	# return "ok"
 	# Todo(title='abasbababacabac').save()
-	# return render_template('index.html')
+	return render_template('index.html')
 
 
 if __name__ == '__main__':
