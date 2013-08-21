@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # app / database config
 app.config.from_object(__name__)
-app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'dwdfall2013'}
+app.config['MONGODB_SETTINGS'] = {'DB': 'dwdfall2013'} #'HOST':os.environ.get('MONGOLAB_URI'),
 app.config['TESTING'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.debug = True
@@ -25,10 +25,10 @@ class Todo(db.Document):
 
 @app.route('/')
 def hello_world():
-	Todo(title='testing123123123').save()
+	# return "ok"
+	# Todo(title='abasbababacabac').save()
 	return render_template('index.html')
 
-    # return 'Hello World!'
 
 if __name__ == '__main__':
 	# Bind to PORT if defined, otherwise default to 5000.
