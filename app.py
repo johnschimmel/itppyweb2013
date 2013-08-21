@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # app / database config
 app.config.from_object(__name__)
-app.config['MONGODB_SETTINGS'] = {'DB': 'dwdfall2013'} #'HOST':os.environ.get('MONGOLAB_URI'),
+app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'dwdfall2013'}
 app.config['TESTING'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.debug = True
