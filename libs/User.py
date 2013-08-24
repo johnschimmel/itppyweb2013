@@ -64,8 +64,6 @@ class User(UserMixin):
     	else:
     		return None
 
-    def is_active(self):
-       return self.active
 
 
 class Anonymous(AnonymousUserMixin):
