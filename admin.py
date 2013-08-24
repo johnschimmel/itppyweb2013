@@ -8,14 +8,15 @@ import models
 import forms
 from libs.User import User
 
-admin_pages = Blueprint('admin_pages', __name__,
-                        template_folder='templates')
-
+admin_pages = Blueprint('admin_pages', __name__, template_folder='templates')
 
 @login_manager.user_loader
 def load_user(id):
 	if id is None:
-		redirect('/login')
+
+		redirect('/admin/login')
+
+	current_app.logger.info("found user " + id)
 	user = User()
 	user.get_by_id(id)
 	if user.is_active():
@@ -27,7 +28,6 @@ def load_user(id):
 @admin_pages.route('/', methods=["GET"])
 @login_required
 def admin_main():
-
 	entries = models.ClassNote.objects().order_by('+class_date')
 
 	templateData = {
@@ -172,4 +172,4 @@ def reauth():
 def logout():
     logout_user()
     flash("Logged out.")
-    return redirect(url_for("index"))
+    return redirect('/admin/login')

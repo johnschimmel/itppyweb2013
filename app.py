@@ -8,7 +8,7 @@ from flask.ext.bcrypt import Bcrypt
 app = Flask("dwdfall2013")
 
 app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'dwdfall2013'}
-app.config['TESTING'] = True
+# app.config['TESTING'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 if os.environ.get('DEBUG'):
 	app.debug = True
