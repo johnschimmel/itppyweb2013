@@ -10,8 +10,7 @@ app = Flask("dwdfall2013")
 app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'dwdfall2013'}
 # app.config['TESTING'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-if os.environ.get('DEBUG'):
-	app.debug = True
+app.debug = os.environ.get('DEBUG',False)
 
 db = MongoEngine(app) # connect MongoEngine with Flask App
 app.session_interface = MongoEngineSessionInterface(db) # sessions w/ mongoengine

@@ -10,30 +10,13 @@ from libs.User import User
 
 admin_pages = Blueprint('admin_pages', __name__, template_folder='templates')
 
-@login_manager.user_loader
-def load_user(id):
-	if id is None:
-
-		redirect('/admin/login')
-
-	current_app.logger.info("found user " + id)
-	user = User()
-	user.get_by_id(id)
-	if user.is_active():
-		return user
-	else:
-		return None
-
-
 @admin_pages.route('/', methods=["GET"])
 @login_required
 def admin_main():
 	entries = models.ClassNote.objects().order_by('+class_date')
-
 	templateData = {
 		'entries' : entries
 	}	
-
 	return render_template('/admin/index.html', **templateData)
 
 
@@ -41,7 +24,6 @@ def admin_main():
 @login_required
 def admin_create_entry():
 	if request.method == "POST":
-
 		entryData = {
 			'title' : request.form.get('title',''),
 			'url_title' : request.form.get('url_title',''),
@@ -69,7 +51,7 @@ def admin_create_entry():
 	return render_template('/admin/entry_new.html')
 
 
-@admin_pages.route("/admin/entry/edit/<entry_id>", methods=["GET","POST"])
+@admin_pages.route("/entry/edit/<entry_id>", methods=["GET","POST"])
 @login_required
 def admin_entry_edit(entry_id):
 	# get single document returned
@@ -173,3 +155,20 @@ def logout():
     logout_user()
     flash("Logged out.")
     return redirect('/admin/login')
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+	return redirect('/admin/login')
+
+@login_manager.user_loader
+def load_user(id):
+	if id is None:
+		redirect('/admin/login')
+
+	current_app.logger.info("found user " + id)
+	user = User()
+	user.get_by_id(id)
+	if user.is_active():
+		return user
+	else:
+		return None
