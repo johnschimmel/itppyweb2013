@@ -30,46 +30,46 @@ def login():
 #
 # Route disabled - enable route to allow user registration.
 #
-@auth_flask_login.route("/register", methods=["GET","POST"])
-def register():
+# @auth_flask_login.route("/register", methods=["GET","POST"])
+# def register():
 	
-	registerForm = forms.SignupForm(request.form)
-	current_app.logger.info(request.form)
+# 	registerForm = forms.SignupForm(request.form)
+# 	current_app.logger.info(request.form)
 
-	if request.method == 'POST' and registerForm.validate() == False:
-		current_app.logger.info(registerForm.errors)
-		return "no"
+# 	if request.method == 'POST' and registerForm.validate() == False:
+# 		current_app.logger.info(registerForm.errors)
+# 		return "no"
 
-	elif request.method == 'POST' and registerForm.validate():
-		email = request.form['email']
+# 	elif request.method == 'POST' and registerForm.validate():
+# 		email = request.form['email']
 		
-		# generate password hash
-		password_hash = flask_bcrypt.generate_password_hash(request.form['password'])
+# 		# generate password hash
+# 		password_hash = flask_bcrypt.generate_password_hash(request.form['password'])
 
-		# prepare User
-		user = User(email,password_hash)
-		print user
+# 		# prepare User
+# 		user = User(email,password_hash)
+# 		print user
 
-		try:
-			user.save()
-			if login_user(user, remember="no"):
-				flash("Logged in!")
-				return redirect(request.args.get("next") or url_for("index"))
-			else:
-				flash("unable to log you in")
+# 		try:
+# 			user.save()
+# 			if login_user(user, remember="no"):
+# 				flash("Logged in!")
+# 				return redirect(request.args.get("next") or url_for("index"))
+# 			else:
+# 				flash("unable to log you in")
 
-		except:
-			flash("unable to register with that email address")
-			app.logger.error("Error on registration - possible duplicate emails")
+# 		except:
+# 			flash("unable to register with that email address")
+# 			app.logger.error("Error on registration - possible duplicate emails")
 
-	# prepare registration form			
-	# registerForm = RegisterForm(csrf_enabled=True)
-	templateData = {
+# 	# prepare registration form			
+# 	# registerForm = RegisterForm(csrf_enabled=True)
+# 	templateData = {
 
-		'form' : registerForm
-	}
+# 		'form' : registerForm
+# 	}
 
-	return render_template("/auth/register.html", **templateData)
+# 	return render_template("/auth/register.html", **templateData)
 
 @auth_flask_login.route("/reauth", methods=["GET", "POST"])
 @login_required
