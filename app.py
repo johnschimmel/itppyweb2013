@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask  # etc.
+from flask import Flask, render_template, request, redirect  # etc.
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt

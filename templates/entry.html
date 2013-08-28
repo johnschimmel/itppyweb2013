@@ -2,10 +2,10 @@
 
 {% block styles %}{% endblock %}
 
-{% block body %}
+{% block main %}
 
 <div class="row">
-	<div class="span2">
+	<div class="col-md-2">
 		<br>
 		{{ entry.class_date.strftime('%B %d') }}
 		<ul>
@@ -14,7 +14,7 @@
 		</ul>
 		
 	</div>
-	<div class="span10">
+	<div class="col-md-10">
 		<div class="page-header">
 			<h2>{{ entry.title }}</h2>
 		</div>
@@ -40,23 +40,31 @@
 		
 			<hr>
 			<div class="row">
-				<div class="span3" id="submit_form_container">
+				<div class="col-md-4 well" id="submit_form_container">
+					<form role="form">
 					<h3>Post your assignment</h3>
-					<label for="name">Name</label>
-					<input type="text" id="form_name" name="name">
-					<br>
-					<label for="url">URL</label>
-					<input type="text" id="form_url" name="url">
-					<br>
-					<label for="description">Description</label>
-					<textarea id="form_description" name="description"></textarea>
-					<br>
-					<input type="text" name="email" style="display:none;">
-					<p>All fields are required</p>
-					<input type="button" id="submit_assignment" value="Submit assignment">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" id="form_name" class="form-control" name="name" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="description">Description</label>
+						<textarea id="form_description" name="description" class="form-control" rows="3"></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="url">URL</label>
+						<input type="text" id="form_url" name="url" class="form-control">
+					</div>
+					
+
+					
+					<button type="submit" class="btn btn-default">Submit</button>
+					</form>
 				</div>
 
-				<div class="span5">
+				<div class="col-md-4">
 					<h3>Assignments</h3>
 					<div id="assignment_container">
 						{% for a in entry.assignments %}
@@ -79,21 +87,17 @@
 			<h3>Discussion</h3>
 			
 		</div>
-		<div id="disqus_thread"></div>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'itppyweb'; // required: replace example with your forum shortname
+		<div class="row">
+			<div class="col-md-8">
+				<a class="moot" data-show_online="true"
+				   href="https://moot.it/i/itpdwd/classnotes/{{entry.url_title}}">
+				   Comments for this class topic.
+				</a>
+		        
 
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        
+			</div>
+		</div>
+		
 
 	</div>
 
@@ -102,6 +106,32 @@
 </div>
 {% endblock %}
 
+{% block head %}
+   {{ super() }}
+   <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!-- (1) force latest IE rendering engine: http://goo.gl/tf4JH -->
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+   <!-- (1) Moot look and feel -->
+   <link rel="stylesheet" href="https://cdn.moot.it/1/moot.css">
+
+   <!-- (4) Custom CSS -->
+   <style>
+   body {
+      font-family: "myriad pro", tahoma, verdana, arial, sans-serif;
+      margin: 0; padding: 0;
+   }
+
+   .moot {
+      font-size: 18px;
+   }
+   </style>
+{% endblock %}
+
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/entry.js') }}" type="text/javascript"></script>
+	{{ super() }}
+  	<!-- (1) Moot client application -->
+   	<script src="https://cdn.moot.it/1/moot.min.js"></script>
 {% endblock %}
