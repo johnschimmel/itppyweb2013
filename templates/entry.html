@@ -4,42 +4,55 @@
 
 {% block main %}
 
+<br>
+<div class="page-header">
+	<h1>{{ entry.class_date.strftime('%B %d') }}<br>{{entry.title}}</h1>
+	<p class="lead">{{ entry.description }}</p>
+</div>
+
 <div class="row">
-	<div class="col-md-2">
-		<br>
-		{{ entry.class_date.strftime('%B %d') }}
-		<ul>
-			<li><a href="#notes">Class notes</a></li>
+	<div class="col-md-2 affix-top">
+		
+		<ul class="nav nav-pills nav-stacked">
+			<li class="active"><a href="#notes">Class notes</a></li>
 			<li><a href="#assignment">Assignment</a></li>
+			<li><a href="#discussion">Discussion</a></li>
 		</ul>
-		
 	</div>
-	<div class="col-md-10">
-		<div class="page-header">
-			<h2>{{ entry.title }}</h2>
-		</div>
+	<div class="col-md-10 col-md-offset-2">
+
 		
-		<h5>
-			{{ entry.description }}
-		</h5>
-
-		<hr>
-
 		<div id="notes">
-			{{ entry.content|safe }}
+			{{ entry.content|markdown }}
 		</div>
 
 		<hr>
-
+		<a name="assignment"></a>
 		<div class="page-header" id="assignment">
 			<h3>Assignment</h3>
 			
-		</div>
-		<div>
-			{{ entry.assignment|safe }}
-		
-			<hr>
+			
 			<div class="row">
+				<div class="col-md-4">
+					{{ entry.assignment|markdown }}
+				</div>
+				
+
+				<div class="col-md-4">
+					<h3>Submitted</h3>
+					<div id="assignment_container">
+						{% for a in entry.assignments %}
+
+						<div class="assignment">
+							<strong>{{ a.name }}</strong> | {{ a.timestamp.strftime('%B %d') }}
+							<p><a href="{{ a.url}}">{{ a.url}}</a></p>
+							<p>{{ a.description }}</p>
+							<hr/>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+
 				<div class="col-md-4 well" id="submit_form_container">
 					<form role="form">
 					<h3>Post your assignment</h3>
@@ -63,27 +76,12 @@
 					<button type="submit" class="btn btn-default">Submit</button>
 					</form>
 				</div>
-
-				<div class="col-md-4">
-					<h3>Assignments</h3>
-					<div id="assignment_container">
-						{% for a in entry.assignments %}
-
-						<div class="assignment">
-							<strong>{{ a.name }}</strong> | {{ a.timestamp.strftime('%B %d') }}
-							<p><a href="{{ a.url}}">{{ a.url}}</a></p>
-							<p>{{ a.description }}</p>
-							<hr/>
-						</div>
-						{% endfor %}
-					</div>
-				</div>
 			</div><!-- row -->
-			<hr/>
-
+		
 		</div>
 		
-		<div class="page-header" id="comments">
+		<a name="discussion"></a>
+		<div class="page-header" id="discussion">
 			<h3>Discussion</h3>
 			
 		</div>
@@ -97,12 +95,7 @@
 
 			</div>
 		</div>
-		
-
 	</div>
-
-
-	
 </div>
 {% endblock %}
 

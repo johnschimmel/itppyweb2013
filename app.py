@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect  # etc.
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.markdown import Markdown
 
 app = Flask("dwdfall2013")
 
@@ -17,6 +18,9 @@ app.session_interface = MongoEngineSessionInterface(db) # sessions w/ mongoengin
 
 # Flask BCrypt will be used to salt the user password
 flask_bcrypt = Bcrypt(app)
+
+# Markdown for Flask
+Markdown(app)
 
 # flask login manager
 login_manager = LoginManager()
