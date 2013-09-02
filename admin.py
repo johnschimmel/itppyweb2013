@@ -51,27 +51,101 @@ def admin_create_entry():
 	return render_template('/admin/entry_new.html')
 
 
-@admin_pages.route("/entry/edit/<entry_id>", methods=["GET","POST"])
+
+@admin_pages.route("/page/<page_id>", methods=["GET","POST"])
 @login_required
-def admin_entry_edit(entry_id):
-	# get single document returned
-	entry = models.ClassNote.objects().with_id(entry_id)
-	if entry:
-		if request.method == "POST":
-			entry.title = request.form.get('title','')
-			entry.url_title = request.form.get('url_title','')
-			entry.description = request.form.get('description','')
-			entry.published = True if request.form['published'] == "true" else False
-			entry.github_url = request.form.get('github_url',None)
-			entry.demo_url = request.form.get('demo_url',None)
-			entry.content = request.form.get('content')
-			entry.assignment = request.form.get('assignment')
-			entry.class_date = datetime.datetime.strptime(request.form.get('class_date'), "%Y-%m-%d")
+def admin_page_edit(page_id=None):
 
-			entry.save()
+	
+
+	if request.method=='GET':
+
+		if page_id == 'new':
+			pageForm = forms.page_form()
+			template_data = {
+				'form' : pageForm, 
+				'page_id' : 'new'
+			}
+			
+		else:
+			try:
+				page = models.Page.objects().get(id=page_id)
+				if page:
+					pageForm = forms.page_form(obj=page)
+					template_data = {
+						'form' : pageForm,
+						'page_id' : page_id
+					}
+				
+			except:
+				return 'uhoh couldn\'t find it.'
+			
+				
+		return render_template('admin/page_entry.html',**template_data)
 
 
-		return render_template('/admin/entry_edit.html', entry=entry)
 
-	else:
-		return "Unable to find entry %s" % entry_id		
+	elif request.method=='POST':
+		pageForm = forms.page_form(request.form)
+
+
+		
+
+		if pageForm.validate() and page_id == 'new':
+
+			# create new page
+			page = models.Page()
+			pageForm.populate_obj(page)
+			page.save()
+			return redirect('/admin/page/' + str(page.id))
+
+		elif pageForm.validate():
+
+			# get the page
+			page = models.Page.objects().get(id=page_id)
+			if page:
+				pageForm.populate_obj(page)
+				page.save()
+				template_data = {
+					'form' : pageForm,
+					'page_id' : page.id
+				}
+				return render_template('admin/page_entry.html', **template_data)
+
+			else: 
+				return "Valid form but unable to find page"
+		else:
+
+			template_data = {
+				'form' : pageForm,
+				'page_id' : request.form.get('page_id')
+			}
+			return render_template('admin/page_entry.html', **template_data)
+
+		
+
+
+	# if request.method == 'POST' and page_form.validate():
+	# 	return "OK"
+	# else: 
+	# 	return "GET"
+	# # get single document returned
+	# page = models.Page.objects().with_id(page_id)
+	# if page:
+	# 	if request.method == "POST":
+	# 		page.title = request.form.get('title','')
+	# 		page.url_title = request.form.get('url_title','')
+	# 		page.description = request.form.get('description','')
+			
+	# 		page.save()
+
+
+	# 	template_data = {
+	# 		page : page,
+	# 		form : page_form
+	# 	}
+
+	# 	return render_template('/admin/entry_edit.html', **template_data)
+
+	# else:
+	# 	return "Unable to find entry %s" % entry_id	

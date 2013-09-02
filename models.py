@@ -28,4 +28,10 @@ class ClassNote(db.Document):
     # references = db.ListField( db.EmbeddedDocumentField(Link) )
     last_updated = db.DateTimeField(default=datetime.datetime.now())
     published = db.BooleanField(default=False)
+
+class Page(db.Document):
+    title = db.StringField(required=True, max_length=120)
+    slug = db.StringField(required=True, max_length=25)
+    content = db.StringField(required=True)
+
     
