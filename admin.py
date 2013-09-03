@@ -50,7 +50,30 @@ def admin_create_entry():
 
 	return render_template('/admin/entry_new.html')
 
+@admin_pages.route("/entry/edit/<entry_id>", methods=["GET","POST"])
+@login_required
+def admin_entry_edit(entry_id):
+	# get single document returned
+	entry = models.ClassNote.objects().with_id(entry_id)
+	if entry:
+		if request.method == "POST":
+			entry.title = request.form.get('title','')
+			entry.url_title = request.form.get('url_title','')
+			entry.description = request.form.get('description','')
+			entry.published = True if request.form['published'] == "true" else False
+			entry.github_url = request.form.get('github_url',None)
+			entry.demo_url = request.form.get('demo_url',None)
+			entry.content = request.form.get('content')
+			entry.assignment = request.form.get('assignment')
+			entry.class_date = datetime.datetime.strptime(request.form.get('class_date'), "%Y-%m-%d")
 
+			entry.save()
+
+
+			return render_template('/admin/entry_edit.html', entry=entry)
+
+	else:
+		return "Unable to find entry %s" % entry_id
 
 @admin_pages.route("/page/<page_id>", methods=["GET","POST"])
 @login_required
