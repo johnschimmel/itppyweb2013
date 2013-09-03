@@ -70,7 +70,7 @@
     {{ class.class_date.strftime("%B %d")}}
     <h5>{{class.title}}</h5>
     {% if class.published %}
-    <a href="/class/{{ class.url_title }}" class="btn btn-small">View notes</a>
+    <a href="/notes/{{ class.url_title }}" class="btn btn-primary">View notes</a>
     {% endif %}
     <hr/>
     {% endfor %}
