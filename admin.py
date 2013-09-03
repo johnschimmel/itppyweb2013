@@ -150,3 +150,14 @@ def admin_page_edit(page_id=None):
 			}
 			return render_template('admin/page_entry.html', **template_data)
 
+@admin_pages.route('/remove_assignment/<class_id>/<assignment_id>')
+@login_required
+def remove_assignment_comment(class_id, assignment_id):
+
+	try:
+		notes = models.ClassNote.objects.with_id(class_id) #
+		notes.update(pull__assignments___id=assignment_id)
+		return notes.title
+	except:
+		return "unable to fetch notes and assignment"
+	

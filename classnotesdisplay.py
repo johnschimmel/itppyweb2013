@@ -5,6 +5,8 @@ from jinja2 import TemplateNotFound
 import models
 from libs.User import User
 
+import random, string
+
 class_pages = Blueprint('class_pages', __name__, template_folder='templates')
 
 @class_pages.route('/')
@@ -48,6 +50,8 @@ def api_addassignment(url_title):
 
 			if entryData['name'] != '' and entryData['url'] != '' and entryData['description'] != '':
 				assignment = models.Assignment(**entryData)
+				assignment._id = ''.join(random.choice(string.lowercase) for x in range(10))
+
 				entry.assignments.append(assignment)
 				entryData['status'] = 'OK'
 

@@ -7,8 +7,9 @@
 {% block main %}
 <div class="row">
 
-	<div class="column span12">
+	<div class="col-md-9">
 		<br><br><br>
+
 
 		<form method="POST" action="" id="admin_entry_edit" class="well form-horizontal">
 			<fieldset>
@@ -106,6 +107,17 @@
 			
 			<input type="submit" value="Save entry" class="btn btn-primary">
 		</form>
+	</div>
+
+	<div class="col-md-3">
+
+		<h2>Assignments</h2>
+		{% for a in entry.assignments %}
+			<li>
+				{{ a.name}} - <a href="/admin/remove_assignment/{{entry.id}}/{{a._id}}">remove</a>
+			</li>
+		{% endfor %}
+
 	</div>
 </div>
 

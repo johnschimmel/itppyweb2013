@@ -9,6 +9,7 @@ class User(db.Document):
 	timestamp = db.DateTimeField(default=datetime.datetime.now())
 
 class Assignment(db.EmbeddedDocument):
+    _id = db.StringField()
     name = db.StringField(required=True)
     description = db.StringField()
     url = db.StringField()
@@ -25,7 +26,6 @@ class ClassNote(db.Document):
     assignments = db.ListField( db.EmbeddedDocumentField(Assignment) )
     github_url = db.StringField(default=None)
     demo_url = db.StringField(default=None)
-    # references = db.ListField( db.EmbeddedDocumentField(Link) )
     last_updated = db.DateTimeField(default=datetime.datetime.now())
     published = db.BooleanField(default=False)
 
