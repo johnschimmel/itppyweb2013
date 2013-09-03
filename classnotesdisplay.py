@@ -33,8 +33,6 @@ def entry_page(url_title):
 @class_pages.route('/notes/<url_title>/add_assignment', methods=['POST'])
 def api_addassignment(url_title):
 	
-	current_app.logger.info("**** inside assignment ****")
-	# return jsonify(request.form)
 	honeypot = request.form.get('email')
 	
 	if request.method == "POST" and honeypot == '':
@@ -48,9 +46,6 @@ def api_addassignment(url_title):
 				'description' : request.form.get('description','')	
 			}
 
-			print "received assignment"
-			print entryData
-			
 			if entryData['name'] != '' and entryData['url'] != '' and entryData['description'] != '':
 				assignment = models.Assignment(**entryData)
 				entry.assignments.append(assignment)
@@ -62,7 +57,8 @@ def api_addassignment(url_title):
 
 			try:
 				entry.save()
-				return jsonify(**entryData)
+				return redirect('/notes/' + url_title)
+				# return jsonify(**entryData)
 				
 
 			except ValidationError:
@@ -73,8 +69,8 @@ def api_addassignment(url_title):
 
 	else:
 		# no GET on this route
-		return "UHOHO"
-		# abort(404)/
+		# return "UHOHO"
+		abort(404)
 
 @class_pages.route('/forum')
 def forum():
