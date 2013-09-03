@@ -157,7 +157,8 @@ def remove_assignment_comment(class_id, assignment_id):
 	try:
 		notes = models.ClassNote.objects.with_id(class_id) #
 		notes.update(pull__assignments___id=assignment_id)
-		return notes.title
+		return redirect('/admin/edit/' + class_id)
+		
 	except:
 		return "unable to fetch notes and assignment"
 	
