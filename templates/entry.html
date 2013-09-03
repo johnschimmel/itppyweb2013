@@ -19,7 +19,7 @@
 			<li><a href="#discussion">Discussion</a></li>
 		</ul>
 	</div>
-	<div class="col-md-10 col-md-offset-2">
+	<div class="col-md-10">
 
 		
 		<div id="notes">
@@ -33,12 +33,14 @@
 			
 			
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-10">
 					{{ entry.assignment|markdown }}
 				</div>
-				
+			</div>
 
-				<div class="col-md-4">
+			<div class="row">
+
+				<div class="col-md-5">
 					<h3>Submitted</h3>
 					<div id="assignment_container">
 						{% for a in entry.assignments %}
