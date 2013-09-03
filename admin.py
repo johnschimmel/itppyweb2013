@@ -53,8 +53,10 @@ def admin_create_entry():
 @admin_pages.route("/entry/edit/<entry_id>", methods=["GET","POST"])
 @login_required
 def admin_entry_edit(entry_id):
+
 	# get single document returned
 	entry = models.ClassNote.objects().with_id(entry_id)
+
 	if entry:
 		if request.method == "POST":
 			entry.title = request.form.get('title','')
@@ -69,8 +71,11 @@ def admin_entry_edit(entry_id):
 
 			entry.save()
 
+		template_data = {
+			'entry' : entry
+		}
 
-			return render_template('/admin/entry_edit.html', entry=entry)
+		return render_template('/admin/entry_edit.html', **template_data)
 
 	else:
 		return "Unable to find entry %s" % entry_id
@@ -145,30 +150,3 @@ def admin_page_edit(page_id=None):
 			}
 			return render_template('admin/page_entry.html', **template_data)
 
-		
-
-
-	# if request.method == 'POST' and page_form.validate():
-	# 	return "OK"
-	# else: 
-	# 	return "GET"
-	# # get single document returned
-	# page = models.Page.objects().with_id(page_id)
-	# if page:
-	# 	if request.method == "POST":
-	# 		page.title = request.form.get('title','')
-	# 		page.url_title = request.form.get('url_title','')
-	# 		page.description = request.form.get('description','')
-			
-	# 		page.save()
-
-
-	# 	template_data = {
-	# 		page : page,
-	# 		form : page_form
-	# 	}
-
-	# 	return render_template('/admin/entry_edit.html', **template_data)
-
-	# else:
-	# 	return "Unable to find entry %s" % entry_id	

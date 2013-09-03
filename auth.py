@@ -60,7 +60,7 @@ def login():
 
 # 		except:
 # 			flash("unable to register with that email address")
-# 			app.logger.error("Error on registration - possible duplicate emails")
+# 			current_app.logger.error("Error on registration - possible duplicate emails")
 
 # 	# prepare registration form			
 # 	# registerForm = RegisterForm(csrf_enabled=True)
