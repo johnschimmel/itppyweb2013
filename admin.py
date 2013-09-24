@@ -14,8 +14,10 @@ admin_pages = Blueprint('admin_pages', __name__, template_folder='templates')
 @login_required
 def admin_main():
 	entries = models.ClassNote.objects().order_by('+class_date')
+	pages = models.Page.objects()
 	templateData = {
-		'entries' : entries
+		'entries' : entries,
+		'pages' : pages
 	}	
 	return render_template('/admin/index.html', **templateData)
 

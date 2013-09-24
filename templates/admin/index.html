@@ -26,6 +26,21 @@
 			
 		{% endfor %}
 		</table>
+
+		<h2>Pages</h2>
+		<table class="table">
+		{% for e in pages %}
+			<tr>
+				<td class="span3">{{ e.title }}</td>
+				<td class="span3">{{ e.slug }}</td>
+				<td class="span3">
+					<a class="btn" href="/admin/page/{{e.id}}">edit</a>
+					<a class="btn" href="/page/{{e.slug}}">view</a>
+				</td>
+			</tr>
+			
+		{% endfor %}
+		</table>
 	</div>
 	
 </div>

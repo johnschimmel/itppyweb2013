@@ -16,6 +16,17 @@ def index():
 	}
 	return render_template('index.html', **templateData)
 
+@class_pages.route('/page/<slug>')
+def show_page(slug):
+	page = models.Page.objects.get(slug=slug)
+	if page:
+		templateData = {
+			'page' : page
+		}
+
+		return render_template('page.html', **templateData)
+	else:
+		abort(404)
 
 @class_pages.route('/notes/<url_title>')
 def entry_page(url_title):
@@ -75,6 +86,8 @@ def api_addassignment(url_title):
 		# no GET on this route
 		# return "UHOHO"
 		abort(404)
+
+
 
 @class_pages.route('/forum')
 def forum():
