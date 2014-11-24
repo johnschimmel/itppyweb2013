@@ -46,46 +46,46 @@ def entry_page(url_title):
 @class_pages.route('/notes/<url_title>/add_assignment', methods=['POST'])
 def api_addassignment(url_title):
 	
-	honeypot = request.form.get('email')
+	# honeypot = request.form.get('email')
 	
-	if request.method == "POST" and honeypot == '':
-		entry = models.ClassNote.objects.get(url_title=url_title)
+	# if request.method == "POST" and honeypot == '':
+	# 	entry = models.ClassNote.objects.get(url_title=url_title)
 		
-		if entry:
+	# 	if entry:
 
-			entryData = {
-				'name' : request.form.get('name',''),
-				'url' : request.form.get('url',''),
-				'description' : request.form.get('description','')	
-			}
+	# 		entryData = {
+	# 			'name' : request.form.get('name',''),
+	# 			'url' : request.form.get('url',''),
+	# 			'description' : request.form.get('description','')	
+	# 		}
 
-			if entryData['name'] != '' and entryData['url'] != '' and entryData['description'] != '':
-				assignment = models.Assignment(**entryData)
-				assignment._id = ''.join(random.choice(string.lowercase) for x in range(10))
+	# 		if entryData['name'] != '' and entryData['url'] != '' and entryData['description'] != '':
+	# 			assignment = models.Assignment(**entryData)
+	# 			assignment._id = ''.join(random.choice(string.lowercase) for x in range(10))
 
-				entry.assignments.append(assignment)
-				entryData['status'] = 'OK'
+	# 			entry.assignments.append(assignment)
+	# 			entryData['status'] = 'OK'
 
-			else:
+	# 		else:
 				
-				entryData = { 'status' : 'ERROR' }
+	# 			entryData = { 'status' : 'ERROR' }
 
-			try:
-				entry.save()
-				return redirect('/notes/' + url_title)
-				# return jsonify(**entryData)
+	# 		try:
+	# 			entry.save()
+	# 			return redirect('/notes/' + url_title)
+	# 			# return jsonify(**entryData)
 				
 
-			except ValidationError:
-				app.logger.error(ValidationError.errors)
-				return "error on saving document"
-		else:
-			abort(500)
+	# 		except ValidationError:
+	# 			app.logger.error(ValidationError.errors)
+	# 			return "error on saving document"
+	# 	else:
+	# 		abort(500)
 
-	else:
-		# no GET on this route
-		# return "UHOHO"
-		abort(404)
+	# else:
+	# 	# no GET on this route
+	# 	# return "UHOHO"
+	abort(404)
 
 
 
